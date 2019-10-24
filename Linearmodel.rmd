@@ -1,0 +1,99 @@
+---
+title: "Linear Model"
+author: "Jeff Roderick"
+date: "10-23-2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+myData = read.csv("rawdata.csv")
+```
+
+#. First model:
+SIMS is a function of ARM
+```{r}
+model1 = lm(SIMS~ARM, data = myData)
+summary(model1)
+```
+
+predict SIMS for ARM = 88
+
+```{r}
+x= data.frame(GRIP=94, ARM=88)
+predSIMS = predict.lm(model1, x)
+print(predSIMS)
+```
+
+
+prediciton interval
+
+```{r}
+predict(model1, x, interval="predict")
+```
+
+#Second model:
+SIMS is a function of GRIP
+
+```{r}
+model2= lm(SIMS~GRIP, data=myData)
+summary(model2)
+```
+predict SIMS for GRIP = 94
+```{r}
+predictSIMS2 = predict.lm(model2, x)
+print(predictSIMS2)
+```
+prediction interval
+
+```{r}
+predict(model2, x, interval="predict")
+```
+
+
+#Third Model:
+SIMS is a function of GRIP + ARm
+
+```{r}
+model3 = lm(SIMS~GRIP+ARM, data=myData)
+summary (model3)
+```
+
+
+
+predict SIMS for ARM=88 and GRIP=94
+
+```{r}
+predictSIMS3 = predict.lm(model3,x)
+print(predictSIMS3)
+```
+
+prediction interval
+
+```{r}
+predict(model3, x, interval="predict")
+```
+
+
+
+Comparison between models 1 and 3
+
+```{r}
+anova(model1, model3)
+```
+$H_0$: No difference is the models.  
+
+$H_A$: There is a difference in the models.  
+
+CONCLUSION:
+There is a diffence because the residuals sum of square are less in model3 opposed to model1.
+Model3 is the most affective model.
+We reject the null hypothesis because it has less than 5% (.000004994).
+
+
+
+
